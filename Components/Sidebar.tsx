@@ -11,10 +11,12 @@ import SuggestedAccounts from './SuggestedAccounts';
 import useAuthStore from '../Redux/store';
 import Image from 'next/image';
 
-const Sidebar = () => {
+const Sidebar = ({data}:any) => {
     const [showBar, setshowBar] = useState(true)
 
-    const { userProfile } = useAuthStore()
+    console.log(data)
+
+    const { userProfile, allUsers, fetchAllUsers }:any = useAuthStore()
 
     const normalLink = 'flex items-center gap-3 hover:bg-primary p-3 justify-center xl:justify-start cursor-pointer font-semibold text-[#FE004F]'
 
@@ -65,7 +67,10 @@ const Sidebar = () => {
                         }
 
                         <Discover/>
-                        <SuggestedAccounts/>
+                        <SuggestedAccounts
+                            fetchAllUsers={fetchAllUsers}
+                            allUsers={allUsers}
+                        />
                         <Footer/>
                     </div>
                 )
@@ -75,3 +80,4 @@ const Sidebar = () => {
 }
 
 export default Sidebar
+

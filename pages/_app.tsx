@@ -4,14 +4,17 @@ import { useState, useEffect } from 'react'
 import Navbar from '../Components/Navbar'
 import Sidebar from '../Components/Sidebar'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import { BASE_URL } from '../Constants';
 
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({ Component, pageProps, data}: AppProps | any) => {
   const [isSSR, setisSSR] = useState(true)
 
   useEffect(() => {
     setisSSR(false)
   }, [])
+
+  console.log(data)
 
   if(isSSR) return null;
 
@@ -33,3 +36,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 }
 
 export default MyApp
+
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`${BASE_URL}/api/users`)
+  const data = await res.json()
+
+  // Pass data to the page via props
+  return { props: { data } }
+}
